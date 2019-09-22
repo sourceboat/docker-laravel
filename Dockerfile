@@ -19,6 +19,7 @@ RUN apk info \
         nginx \
         zlib-dev \
         icu-dev \
+        imagemagick-dev \
         libzip-dev \
         libjpeg-turbo-dev \
         libpng-dev \
@@ -49,6 +50,8 @@ RUN apk info \
         zip \
         opcache \
         pcntl \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
     && apk del .build-deps
 
 # change default shell
