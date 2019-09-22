@@ -14,6 +14,7 @@ RUN apk info \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
     && apk add --no-cache \
+        sudo \
         runit \
         nginx \
         zlib-dev \
@@ -53,9 +54,9 @@ SHELL ["/bin/bash", "-c"]
 
 # create app user
 RUN addgroup -S app && \
-    adduser -S app -G app
+    adduser -S app -G app && \
+    echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 WORKDIR /home/app
-USER app
 
 # install wait-for-it
 ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/local/bin/
