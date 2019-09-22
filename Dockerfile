@@ -52,7 +52,8 @@ RUN apk info \
 SHELL ["/bin/bash", "-c"]
 
 # create app user
-RUN useradd --create-home app
+RUN addgroup -S app && \
+    adduser -S app -G app
 WORKDIR /home/app
 USER app
 
