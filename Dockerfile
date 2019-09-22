@@ -92,7 +92,7 @@ RUN yarn config set strict-ssl false && \
 
 # copy home folder and make run scripts executable
 COPY ./home/app/ /home/app/
-RUN find . -name "run-*.sh" -exec chmod -v +x {} \;
+RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
 
 # run the application
 CMD /home/app/run-dev.sh
