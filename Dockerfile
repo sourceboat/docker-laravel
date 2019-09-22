@@ -18,6 +18,7 @@ RUN apk info \
         runit \
         nginx \
         zlib-dev \
+        icu-dev \
         libzip-dev \
         libjpeg-turbo-dev \
         libpng-dev \
@@ -44,6 +45,7 @@ RUN apk info \
         bcmath \
         exif \
     && docker-php-ext-install \
+        intl \
         zip \
         opcache \
         pcntl \
