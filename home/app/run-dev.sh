@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 echo "Running via DEV script..."
-cd /home/app
+cd /opt/app
 
 # Make sure Laravel can write its own files
-mkdir -p /home/app/storage/logs/
-touch /home/app/storage/logs/laravel.log
-touch /home/app/storage/logs/worker.log
-chown www-data:www-data -R /home/app/storage
-chown www-data:www-data -R /home/app/bootstrap/cache
+mkdir -p /opt/app/storage/logs/
+touch /opt/app/storage/logs/laravel.log
+touch /opt/app/storage/logs/worker.log
+chown www-data:www-data -R /opt/app/storage
+chown www-data:www-data -R /opt/app/bootstrap/cache
 
 # install dependencies
 composer install --prefer-dist --no-progress --no-interaction

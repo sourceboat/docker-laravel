@@ -56,7 +56,10 @@ SHELL ["/bin/bash", "-c"]
 RUN addgroup -S app && \
     adduser -S app -G app && \
     echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-WORKDIR /home/app
+
+# create working dir
+RUN mkdir /opt/app
+WORKDIR /opt/app
 
 # install wait-for-it
 ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/local/bin/
@@ -82,9 +85,9 @@ RUN composer global require hirak/prestissimo
 RUN yarn config set strict-ssl false && \
     yarn global add cross-env
 
-# copy user files and make run scripts executable
+# copy home folder and make run scripts executable
 COPY home/app/ .
 RUN find . -name "run-*.sh" -exec chmod -v +x {} \;
 
 # run the application
-CMD /root/run-dev.sh
+CMD /home/app/run-dev.sh
