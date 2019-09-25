@@ -45,9 +45,7 @@ RUN apk info \
         zip \
         bcmath \
         exif \
-    && docker-php-ext-install \
         intl \
-        zip \
         opcache \
         pcntl \
         mbstring \
