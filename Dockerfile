@@ -49,8 +49,12 @@ RUN apk info \
         opcache \
         pcntl \
         mbstring \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
+    && pecl install \
+        redis \
+        imagick \
+    && docker-php-ext-enable \
+        redis \
+        imagick \
     && apk del .build-deps
 
 # change default shell
