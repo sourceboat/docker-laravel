@@ -19,6 +19,7 @@ RUN apk info \
         nginx \
         zlib-dev \
         icu-dev \
+        imagemagick \
         imagemagick-dev \
         libzip-dev \
         libjpeg-turbo-dev \
@@ -38,21 +39,29 @@ RUN apk info \
         xvfb \
         chromium@edge \
         chromium-chromedriver@edge \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) \
         gd \
         pdo_mysql \
         zip \
         bcmath \
         exif \
-    && docker-php-ext-install \
         intl \
-        zip \
         opcache \
         pcntl \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
+        mbstring \
+        iconv \
+    && pecl install \
+        redis \
+        imagick \
+    && docker-php-ext-enable \
+        redis \
+        imagick \
     && apk del .build-deps
+
+# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-305038173)
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ gnu-libiconv
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # change default shell
 SHELL ["/bin/bash", "-c"]
@@ -96,3 +105,4 @@ RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
 
 # run the application
 CMD /home/app/run-dev.sh
+EXPOSE 8080
