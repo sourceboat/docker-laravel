@@ -19,6 +19,7 @@ RUN apk info \
         nginx \
         zlib-dev \
         icu-dev \
+        imagemagick \
         imagemagick-dev \
         libzip-dev \
         libjpeg-turbo-dev \
