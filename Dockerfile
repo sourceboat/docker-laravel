@@ -49,6 +49,7 @@ RUN apk info \
         opcache \
         pcntl \
         mbstring \
+        iconv \
     && pecl install \
         redis \
         imagick \
@@ -56,6 +57,10 @@ RUN apk info \
         redis \
         imagick \
     && apk del .build-deps
+
+# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-305038173)
+RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ 
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # change default shell
 SHELL ["/bin/bash", "-c"]
