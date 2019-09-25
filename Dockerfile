@@ -50,6 +50,7 @@ RUN apk info \
         zip \
         opcache \
         pcntl \
+        mbstring \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && apk del .build-deps
