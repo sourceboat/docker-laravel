@@ -8,7 +8,6 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
 RUN apk info \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && echo @3.8 http://dl-cdn.alpinelinux.org/alpine/v3.8/main >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
@@ -35,7 +34,6 @@ RUN apk info \
         php7-dom \
         mysql-client \
         yarn@edge \
-        libgcj@3.8 \
         xvfb \
         chromium@edge \
         chromium-chromedriver@edge \
