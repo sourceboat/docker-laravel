@@ -91,7 +91,7 @@ COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
 
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV PATH="$PATH:./vendor/bin:~/.composer/vendor/bin"
+ENV PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
 RUN composer global require hirak/prestissimo
 
 # configure yarn
