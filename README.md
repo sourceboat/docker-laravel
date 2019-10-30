@@ -14,6 +14,61 @@ A highly opinionated docker image which aims to be perfectly suited to run our L
 
 ## Usage
 
+### Development 
+
+Create a `Dockerfile` with the following contents (and adjust version tag):
+
+```
+FROM sourceboat/docker-laravel:x.x.x
+
+# install yarn dependencies
+COPY package.json yarn.* ./
+RUN yarn install --pure-lockfile
+
+# copy application
+COPY . ./
+
+# install composer dependencies
+RUN composer install -d /opt/app --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+# create storage symlink
+RUN php artisan storage:link
+
+# build assets
+RUN yarn production
+```
+
+Create a `docker-compose.yml` with the following contents:
+
+```
+version: '3.7'
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
+    volumes:
+      - ./:/opt/app:cached
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+  mysql:
+    image: mysql:8.0
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_DATABASE=default"
+```
+
+Add more services (e.g. `redis`) if needed.
+
+Make sure to adjust your `.env` accordingly and set `APP_URL` to `http://localhost:8080`.
+
+Run `docker-compose up` to start the services.
+
+### Production
+
 `WIP`
 
 ## Changelog
