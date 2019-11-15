@@ -90,8 +90,9 @@ COPY ./usr/local/etc/php/ /usr/local/etc/php/
 COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
 
 # configure composer
-ENV COMPOSER_ALLOW_SUPERUSER=1
-ENV PATH="$PATH:./vendor/bin:~/.composer/vendor/bin"
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_MEMORY_LIMIT=-1
+ENV PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
 RUN composer global require hirak/prestissimo
 
 # configure yarn
@@ -100,6 +101,7 @@ RUN yarn config set strict-ssl false && \
 
 # copy home folder and make run scripts executable
 COPY ./home/app/ /home/app/
+COPY ./root/.bashrc /root/
 RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
 
 # run the application
