@@ -17,3 +17,9 @@ _artisan()
 }
 
 complete -F _artisan artisan
+
+# for customization
+FILE=/home/app/.custom_bashrc
+if [ -f "$FILE" ]; then
+    source "$FILE"
+fi
