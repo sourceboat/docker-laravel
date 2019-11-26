@@ -1,7 +1,6 @@
 # useful aliases
 alias ll='ls -la'
 alias artisan="php artisan"
-alias seed="artisan migrate:fresh --seed"
 
 # prompt colors and short user display
 force_color_prompt=yes
