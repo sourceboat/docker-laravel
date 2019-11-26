@@ -14,11 +14,4 @@ _artisan()
 	COMPREPLY=(`compgen -W "$COMMANDS" -- "${COMP_WORDS[COMP_CWORD]}"`)
 	return 0
 }
-
 complete -F _artisan artisan
-
-# for customization
-FILE=/home/app/.custom_bashrc
-if [ -f "$FILE" ]; then
-    source "$FILE"
-fi
