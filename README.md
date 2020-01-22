@@ -48,7 +48,7 @@ services:
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
-      - PHP_MEMORY_LIMIT=1G #Set this to your desired value. Default: 512M
+      - PHP_MEMORY_LIMIT=1G
     volumes:
       - ./:/opt/app:cached
     ports:
