@@ -18,7 +18,7 @@ A highly opinionated docker image which aims to be perfectly suited to run our L
 
 Create a `Dockerfile` with the following contents (and adjust version tag):
 
-```
+```dockerfile
 FROM sourceboat/docker-laravel:x.x.x
 
 # install yarn dependencies
@@ -40,7 +40,7 @@ RUN yarn production
 
 Create a `docker-compose.yml` with the following contents:
 
-```
+```yml
 version: '3.7'
 services:
   app:
@@ -48,6 +48,7 @@ services:
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
+      - PHP_MEMORY_LIMIT=1G #Set this to your desired value. Default: 512M
     volumes:
       - ./:/opt/app:cached
     ports:
