@@ -1,4 +1,4 @@
-FROM php:7.4.2-fpm-alpine3.10
+FROM php:7.4.2-fpm-alpine3.11
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -10,6 +10,7 @@ RUN apk info \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
     && echo @3.9 http://dl-cdn.alpinelinux.org/alpine/v3.9/main >> /etc/apk/repositories \
+    && echo @3.10 http://dl-cdn.alpinelinux.org/alpine/v3.10/main >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
