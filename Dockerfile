@@ -1,4 +1,4 @@
-FROM php:7.3.8-fpm-alpine3.10
+FROM php:7.4.2-fpm-alpine3.10
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -39,7 +39,7 @@ RUN apk info \
         xvfb \
         chromium@3.9 \
         chromium-chromedriver@3.9 \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
         pdo_mysql \
