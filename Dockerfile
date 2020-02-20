@@ -49,7 +49,6 @@ RUN apk info \
         intl \
         opcache \
         pcntl \
-        mbstring \
         iconv \
     && pecl install \
         redis \
