@@ -1,4 +1,4 @@
-FROM php:7.4.2-fpm-alpine3.11
+FROM php:7.4.4-fpm-alpine3.11
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -106,5 +106,5 @@ COPY ./root/.bashrc /root/
 RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
 
 # run the application
-CMD /home/app/run-dev.sh
+CMD /home/app/run-prod.sh
 EXPOSE 8080
