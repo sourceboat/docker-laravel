@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "Running via DEV script..."
+echo "Running via PROD script..."
 cd /opt/app
 
 # make sure Laravel can write its own files
@@ -9,17 +9,18 @@ touch /opt/app/storage/logs/worker.log
 chown www-data:www-data -R /opt/app/storage
 chown www-data:www-data -R /opt/app/bootstrap/cache
 
-# create storage symlink
-php artisan storage:link
-
-# install dependencies
-composer install --prefer-dist --no-progress --no-interaction
-yarn
-
 # migrate and setup database
 wait-for-it.sh mysql:3306
 php artisan migrate --force
 php artisan setup
+
+# build caches
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# restart the Horizon supervisors
+php artisan horizon:restart
 
 # start the services
 exec runsvdir /etc/service
