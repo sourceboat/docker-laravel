@@ -19,6 +19,7 @@ yarn
 # migrate and setup database
 wait-for-it.sh mysql:3306
 php artisan migrate --force
+php artisan setup
 
 # start the services
 exec runsvdir /etc/service

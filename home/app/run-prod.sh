@@ -12,6 +12,7 @@ chown www-data:www-data -R /opt/app/bootstrap/cache
 # migrate and setup database
 wait-for-it.sh mysql:3306
 php artisan migrate --force
+php artisan setup
 
 # build caches
 php artisan config:cache
