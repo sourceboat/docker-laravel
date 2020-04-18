@@ -106,5 +106,5 @@ COPY ./root/.bashrc /root/
 RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
 
 # run the application
-CMD /home/app/run-dev.sh
+CMD /home/app/run-prod.sh
 EXPOSE 8080

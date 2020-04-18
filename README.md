@@ -45,6 +45,7 @@ version: '3.7'
 services:
   app:
     build: .
+    command: /home/app/run-dev.sh
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
