@@ -3,7 +3,9 @@ echo "Running via PROD script..."
 cd /opt/app
 
 # migrate and setup database
-wait-for-it.sh mysql:3306
+if [ -z "$DB_HOST" ]; then
+  wait-for-it.sh $DB_HOST
+fi
 php artisan migrate --force
 php artisan setup
 
