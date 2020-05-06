@@ -7,7 +7,6 @@ set -e
 mkdir -p /opt/app/storage/logs/
 touch /opt/app/storage/logs/laravel.log
 touch /opt/app/storage/logs/worker.log
-
 chown www-data:www-data -R /opt/app/storage
 chown www-data:www-data -R /opt/app/bootstrap/cache
 
