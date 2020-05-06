@@ -107,7 +107,9 @@ RUN yarn config set strict-ssl false && \
 COPY ./home/app/ /home/app/
 COPY ./root/.bashrc /root/
 RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
+RUN chmod +x /home/app/entrypoint.sh
 
 # run the application
+ENTRYPOINT bash /home/app/entrypoint.sh
 CMD /home/app/run-prod.sh
 EXPOSE 8080
