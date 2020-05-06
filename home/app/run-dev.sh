@@ -2,9 +2,6 @@
 echo "Running via DEV script..."
 cd /opt/app
 
-# create storage symlink
-php artisan storage:link
-
 # install dependencies
 composer install --prefer-dist --no-progress --no-interaction
 yarn
