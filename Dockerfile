@@ -90,6 +90,9 @@ COPY ./etc/nginx/ /etc/nginx/
 COPY ./usr/local/etc/php/ /usr/local/etc/php/
 COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
 
+# copy bin files
+COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
+
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1
@@ -104,7 +107,9 @@ RUN yarn config set strict-ssl false && \
 COPY ./home/app/ /home/app/
 COPY ./root/.bashrc /root/
 RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
+RUN chmod +x /home/app/entrypoint.sh
 
 # run the application
+ENTRYPOINT bash /home/app/entrypoint.sh
 CMD /home/app/run-prod.sh
 EXPOSE 8080
