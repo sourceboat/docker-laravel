@@ -1,4 +1,4 @@
-FROM php:7.4.5-fpm-alpine3.11
+FROM php:7.4.6-fpm-alpine3.11
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -90,6 +90,9 @@ COPY ./etc/nginx/ /etc/nginx/
 COPY ./usr/local/etc/php/ /usr/local/etc/php/
 COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
 
+# copy bin files
+COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
+
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1
@@ -104,7 +107,9 @@ RUN yarn config set strict-ssl false && \
 COPY ./home/app/ /home/app/
 COPY ./root/.bashrc /root/
 RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
+RUN chmod +x /home/app/entrypoint.sh
 
 # run the application
+ENTRYPOINT bash /home/app/entrypoint.sh
 CMD /home/app/run-prod.sh
 EXPOSE 8080
