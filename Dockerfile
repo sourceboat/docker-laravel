@@ -14,49 +14,49 @@ RUN apk info \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
-    $PHPIZE_DEPS \
+        $PHPIZE_DEPS \
     && apk add --no-cache \
-    sudo \
-    runit \
-    nginx \
-    zlib-dev \
-    icu-dev \
-    imagemagick \
-    imagemagick-dev \
-    libzip-dev \
-    libjpeg-turbo-dev \
-    libpng-dev \
-    libxml2-dev \
-    freetype-dev \
-    bash \
-    git \
-    nodejs \
-    composer \
-    php7-tokenizer \
-    php7-simplexml \
-    php7-dom \
-    mysql-client \
-    yarn@edge \
-    xvfb \
-    chromium@3.9 \
-    chromium-chromedriver@3.9 \
+        sudo \
+        runit \
+        nginx \
+        zlib-dev \
+        icu-dev \
+        imagemagick \
+        imagemagick-dev \
+        libzip-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libxml2-dev \
+        freetype-dev \
+        bash \
+        git \
+        nodejs \
+        composer \
+        php7-tokenizer \
+        php7-simplexml \
+        php7-dom \
+        mysql-client \
+        yarn@edge \
+        xvfb \
+        chromium@3.9 \
+        chromium-chromedriver@3.9 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
-    gd \
-    pdo_mysql \
-    zip \
-    bcmath \
-    exif \
-    intl \
-    opcache \
-    pcntl \
-    iconv \
+        gd \
+        pdo_mysql \
+        zip \
+        bcmath \
+        exif \
+        intl \
+        opcache \
+        pcntl \
+        iconv \
     && pecl install \
-    redis \
-    imagick \
+        redis \
+        imagick \
     && docker-php-ext-enable \
-    redis \
-    imagick \
+        redis \
+        imagick \
     && apk del .build-deps
 
 # fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-305038173)
