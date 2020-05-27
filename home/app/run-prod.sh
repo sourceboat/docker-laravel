@@ -14,8 +14,5 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# restart the Horizon supervisors
-php artisan horizon:restart
-
 # start the services
 exec runsvdir /etc/service
