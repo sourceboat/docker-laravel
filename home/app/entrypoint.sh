@@ -16,7 +16,7 @@ cd /opt/app
 echo "create storage symlink..."
 su www-data -s /bin/sh -c "php artisan storage:link -q"
 
-#  startup commands
+# startup commands
 php /usr/local/bin/startup-commands.php | bash
 
 
