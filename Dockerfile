@@ -110,6 +110,6 @@ RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
 RUN chmod +x /home/app/entrypoint.sh
 
 # run the application
-ENTRYPOINT bash /home/app/entrypoint.sh
+ENTRYPOINT ["/home/app/entrypoint.sh"]
 CMD /home/app/run-prod.sh
 EXPOSE 8080
