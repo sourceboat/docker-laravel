@@ -66,11 +66,6 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 # change default shell
 SHELL ["/bin/bash", "-c"]
 
-# create app user
-RUN addgroup -S app && \
-    adduser -S app -G app && \
-    echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
 # create working dir
 RUN mkdir /opt/app
 WORKDIR /opt/app
