@@ -98,13 +98,12 @@ RUN composer global require hirak/prestissimo
 RUN yarn config set strict-ssl false && \
     yarn global add cross-env
 
-# copy home folder and make run scripts executable
-COPY ./home/app/ /home/app/
-COPY ./root/.bashrc /root/
-RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
-RUN chmod +x /home/app/entrypoint.sh
+# copy root folder and make run scripts executable
+COPY ./root/ /root/
+RUN find /root -name "run-*.sh" -exec chmod -v +x {} \;
+RUN chmod +x /root/entrypoint.sh
 
 # run the application
-ENTRYPOINT ["/home/app/entrypoint.sh"]
-CMD /home/app/run-prod.sh
+ENTRYPOINT ["/root/entrypoint.sh"]
+CMD /root/run-prod.sh
 EXPOSE 8080
