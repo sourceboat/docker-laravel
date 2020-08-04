@@ -45,7 +45,7 @@ version: '3.7'
 services:
   app:
     build: .
-    command: /home/app/run-dev.sh
+    command: /root/run-dev.sh
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
@@ -80,7 +80,7 @@ version: '3.7'
 services:
   app:
     image: sourceboat/docker-laravel
-    command: /home/app/run-prod.sh
+    command: /root/run-prod.sh
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
