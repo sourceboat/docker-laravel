@@ -14,7 +14,7 @@ chown www-data:www-data -R /opt/app/bootstrap/cache
 echo "Running startup commands..."
 php /usr/local/bin/startup-commands.php | bash
 
-if [[ -n "$DB_HOST" || -n "$DB_PORT" ]]; then
+if [[ -n "$DB_HOST" || -n "$DB_PORT" ]]; then 
   wait-for-it.sh --host=$DB_HOST --port=$DB_PORT
 fi
 
