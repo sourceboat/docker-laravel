@@ -50,6 +50,7 @@ services:
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
       - PHP_MEMORY_LIMIT=1G
+      - PHP_MAX_EXECUTION_TIME=30
     volumes:
       - ./:/opt/app:cached
     ports:
@@ -85,6 +86,7 @@ services:
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
       - PHP_MEMORY_LIMIT=1G
+      - PHP_MAX_EXECUTION_TIME=30
       - STARTUP_COMMAND1=php artisan migrate --force
       - STARTUP_COMMAND2=php artisan horizon:restart
     volumes:
