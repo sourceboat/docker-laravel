@@ -103,7 +103,13 @@ COPY ./root/ /root/
 RUN find /root -name "run-*.sh" -exec chmod -v +x {} \;
 RUN chmod +x /root/entrypoint.sh
 
+# copy startup modules folder and make scripts executalbe
+
+COPY ./modules/ /root/modules/
+RUN find /root/modules/ -name "*.sh" -exec chmod -v +x {} \;
+
+
 # run the application
 ENTRYPOINT ["/root/entrypoint.sh"]
-CMD /root/run-prod.sh
+CMD ["runsvdir", "/etc/service"]
 EXPOSE 8080
