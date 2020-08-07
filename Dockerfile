@@ -108,7 +108,6 @@ RUN chmod +x /root/entrypoint.sh
 COPY ./modules/ /root/modules/
 RUN find /root/modules/ -name "*.sh" -exec chmod -v +x {} \;
 
-
 # run the application
 ENTRYPOINT ["/root/entrypoint.sh"]
 CMD ["runsvdir", "/etc/service"]
