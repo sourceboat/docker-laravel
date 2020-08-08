@@ -1,16 +1,15 @@
-FROM php:7.4.8-fpm-alpine3.11
+FROM php:7.4.9-fpm-alpine3.11
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
     PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
     PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10" \
-    PHP_MEMORY_LIMIT="512M"
+    PHP_MEMORY_LIMIT="512M" \
+    PHP_MAX_EXECUTION_TIME="60"
 
 RUN apk info \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && echo @3.9 http://dl-cdn.alpinelinux.org/alpine/v3.9/main >> /etc/apk/repositories \
-    && echo @3.10 http://dl-cdn.alpinelinux.org/alpine/v3.10/main >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
@@ -37,9 +36,6 @@ RUN apk info \
         php7-dom \
         mysql-client \
         yarn@edge \
-        xvfb \
-        chromium@3.9 \
-        chromium-chromedriver@3.9 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
@@ -65,11 +61,6 @@ ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
 # change default shell
 SHELL ["/bin/bash", "-c"]
-
-# create app user
-RUN addgroup -S app && \
-    adduser -S app -G app && \
-    echo "app ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # create working dir
 RUN mkdir /opt/app
@@ -103,13 +94,11 @@ RUN composer global require hirak/prestissimo
 RUN yarn config set strict-ssl false && \
     yarn global add cross-env
 
-# copy home folder and make run scripts executable
-COPY ./home/app/ /home/app/
-COPY ./root/.bashrc /root/
-RUN find /home/app -name "run-*.sh" -exec chmod -v +x {} \;
-RUN chmod +x /home/app/entrypoint.sh
+# copy root folder and make run scripts executable
+COPY ./root/ /root/
+RUN find /root -name "*.sh" -exec chmod -v +x {} \;
 
 # run the application
-ENTRYPOINT ["/home/app/entrypoint.sh"]
-CMD /home/app/run-prod.sh
+ENTRYPOINT ["/root/entrypoint.sh"]
+CMD ["runsvdir", "/etc/service"]
 EXPOSE 8080
