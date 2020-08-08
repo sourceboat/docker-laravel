@@ -100,7 +100,7 @@ RUN yarn config set strict-ssl false && \
 
 # copy root folder and make run scripts executable
 COPY ./root/ /root/
-RUN find /root -name "*.sh"     -exec chmod -v +x {} \;
+RUN find /root -name "*.sh" -exec chmod -v +x {} \;
 
 # run the application
 ENTRYPOINT ["/root/entrypoint.sh"]
