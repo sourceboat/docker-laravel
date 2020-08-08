@@ -45,12 +45,14 @@ version: '3.7'
 services:
   app:
     build: .
-    command: /root/run-dev.sh
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
       - PHP_MEMORY_LIMIT=1G
       - PHP_MAX_EXECUTION_TIME=30
+      - STARTUP_COMMAND1=/root/modules/dev.sh
+      - STARTUP_COMMAND2=php artisan migrate --force
+      - STARTUP_COMMAND3=php artisan setup
     volumes:
       - ./:/opt/app:cached
     ports:
@@ -81,14 +83,15 @@ version: '3.7'
 services:
   app:
     image: sourceboat/docker-laravel
-    command: /root/run-prod.sh
     restart: unless-stopped
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
       - PHP_MEMORY_LIMIT=1G
       - PHP_MAX_EXECUTION_TIME=30
-      - STARTUP_COMMAND1=php artisan migrate --force
-      - STARTUP_COMMAND2=php artisan horizon:restart
+      - STARTUP_COMMAND1=/root/modules/storage.sh
+      - STARTUP_COMMAND2=/root/modules/cache.sh
+      - STARTUP_COMMAND3=php artisan migrate --force
+      - STARTUP_COMMAND4=php artisan horizon:restart
     volumes:
       - ./:/opt/app:cached
     ports:

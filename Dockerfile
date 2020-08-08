@@ -1,4 +1,4 @@
-FROM php:7.4.8-fpm-alpine3.11
+FROM php:7.4.9-fpm-alpine3.11
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -10,8 +10,6 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
 RUN apk info \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && echo @3.9 http://dl-cdn.alpinelinux.org/alpine/v3.9/main >> /etc/apk/repositories \
-    && echo @3.10 http://dl-cdn.alpinelinux.org/alpine/v3.10/main >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
@@ -38,9 +36,6 @@ RUN apk info \
         php7-dom \
         mysql-client \
         yarn@edge \
-        xvfb \
-        chromium@3.9 \
-        chromium-chromedriver@3.9 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
@@ -101,10 +96,9 @@ RUN yarn config set strict-ssl false && \
 
 # copy root folder and make run scripts executable
 COPY ./root/ /root/
-RUN find /root -name "run-*.sh" -exec chmod -v +x {} \;
-RUN chmod +x /root/entrypoint.sh
+RUN find /root -name "*.sh" -exec chmod -v +x {} \;
 
 # run the application
 ENTRYPOINT ["/root/entrypoint.sh"]
-CMD /root/run-prod.sh
+CMD ["runsvdir", "/etc/service"]
 EXPOSE 8080
