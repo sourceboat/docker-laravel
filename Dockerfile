@@ -9,8 +9,6 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
 RUN apk info \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && echo @3.9 http://dl-cdn.alpinelinux.org/alpine/v3.9/main >> /etc/apk/repositories \
-    && echo @3.10 http://dl-cdn.alpinelinux.org/alpine/v3.10/main >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
@@ -37,9 +35,6 @@ RUN apk info \
         php7-dom \
         mysql-client \
         yarn@edge \
-        xvfb \
-        chromium@3.9 \
-        chromium-chromedriver@3.9 \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
