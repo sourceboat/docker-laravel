@@ -10,13 +10,12 @@ touch /opt/app/storage/logs/worker.log
 chown www-data:www-data -R /opt/app/storage
 chown www-data:www-data -R /opt/app/bootstrap/cache
 
-cd /opt/app
-
-# create storage symlink
-echo "create storage symlink..."
-su www-data -s /bin/sh -c "php artisan storage:link -q"
-
 # startup commands
+echo "Running startup commands..."
 php /usr/local/bin/startup-commands.php | bash
+
+if [[ -n "$DB_HOST" || -n "$DB_PORT" ]]; then 
+  wait-for-it.sh --host=$DB_HOST --port=$DB_PORT
+fi
 
 exec "$@"
