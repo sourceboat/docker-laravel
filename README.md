@@ -49,6 +49,7 @@ services:
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
       - PHP_MEMORY_LIMIT=1G
+      - PHP_MAX_EXECUTION_TIME=30
       - STARTUP_COMMAND1=/root/modules/dev.sh
       - STARTUP_COMMAND2=php artisan migrate --force
       - STARTUP_COMMAND3=php artisan setup
@@ -86,6 +87,7 @@ services:
     environment:
       - PHP_OPCACHE_VALIDATE_TIMESTAMPS=1
       - PHP_MEMORY_LIMIT=1G
+      - PHP_MAX_EXECUTION_TIME=30
       - STARTUP_COMMAND1=/root/modules/storage.sh
       - STARTUP_COMMAND2=/root/modules/cache.sh
       - STARTUP_COMMAND3=php artisan migrate --force
