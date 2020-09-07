@@ -5,7 +5,11 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MEMORY_CONSUMPTION="192" \
     PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10" \
     PHP_MEMORY_LIMIT="512M" \
-    PHP_MAX_EXECUTION_TIME="60"
+    PHP_MAX_EXECUTION_TIME="60" \
+    PHP_FPM_MAX_CHILDREN="100" \
+    PHP_FPM_MAX_REQUESTS="1000" \
+    PHP_FPM_PM="ondemand" \
+    PHP_FPM_PROCESS_IDLE_TIMEOUT="10s"
 
 RUN apk info \
     && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
