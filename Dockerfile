@@ -39,6 +39,7 @@ RUN apk info \
         php7-simplexml \
         php7-dom \
         mysql-client \
+        mariadb-connector-c \
         yarn@edge \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
