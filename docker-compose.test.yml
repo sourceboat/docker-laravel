@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+    sup:
+        build: .
+        command: /root/test/test-command.sh
+        environment: 
+            - STARTUP_COMMAND1=composer --version
+            - STARTUP_COMMAND2=php --version
+            - STARTUP_COMMAND3=chmod +x /root/test/test-command.sh
+        volumes: 
+            - ./test:/root/test
