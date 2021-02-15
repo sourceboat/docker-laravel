@@ -91,9 +91,8 @@ COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
 
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_MEMORY_LIMIT=-1
-ENV PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
-RUN composer global require hirak/prestissimo
+    COMPOSER_MEMORY_LIMIT=-1 \
+    PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
 
 # configure yarn
 RUN yarn config set strict-ssl false && \
