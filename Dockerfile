@@ -34,6 +34,7 @@ RUN apk info \
         bash \
         git \
         nodejs \
+        npm \
         composer \
         php7-tokenizer \
         php7-simplexml \
