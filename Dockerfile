@@ -1,4 +1,4 @@
-FROM php:7.4.14-fpm-alpine3.11
+FROM php:7.4.14-fpm-alpine
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -92,9 +92,8 @@ COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
 
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
-    COMPOSER_MEMORY_LIMIT=-1
-ENV PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
-RUN composer global require hirak/prestissimo
+    COMPOSER_MEMORY_LIMIT=-1 \
+    PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
 
 # configure yarn
 RUN yarn config set strict-ssl false && \
