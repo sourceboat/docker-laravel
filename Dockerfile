@@ -24,8 +24,6 @@ RUN apk info \
         nginx \
         zlib-dev \
         icu-dev \
-        imagemagick \
-        imagemagick-dev \
         libzip-dev \
         libjpeg-turbo-dev \
         libpng-dev \
@@ -42,11 +40,6 @@ RUN apk info \
         mysql-client \
         mariadb-connector-c \
         yarn@edge \
-    && git clone https://github.com/Imagick/imagick \
-    && cd imagick \
-    && git checkout master && git pull \
-    && phpize && ./configure && make && make install \
-    && cd .. && rm -Rf imagick \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
@@ -62,7 +55,6 @@ RUN apk info \
         redis \
     && docker-php-ext-enable \
         redis \
-        imagick \
     && apk del .build-deps \
     && rm -rf /tmp/* /var/cache/apk/* 
 
