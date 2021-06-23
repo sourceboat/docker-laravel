@@ -40,5 +40,5 @@ jobs:
             # ghcr.io/user/app:1.0.0
             # ghcr.io/user/app:latest
           tags: |
-            {{ GITHUB_REPOSITORY }}-test:latest
-            {{ GITHUB_REPOSITORY }}-test:{{ GITHUB_REF }}
+            ${{ GITHUB_REPOSITORY }}-test:latest
+            ${{ GITHUB_REPOSITORY }}-test:${{ GITHUB_REF }}
