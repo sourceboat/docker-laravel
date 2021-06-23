@@ -41,4 +41,4 @@ jobs:
             # ghcr.io/user/app:latest
           tags: |
             ${{ github.GITHUB_REPOSITORY }}-test:latest
-            ${{ github.GITHUB_REPOSITORY }}-test:${{ GITHUB_REF }}
+            ${{ github.GITHUB_REPOSITORY }}-test:${{ github.GITHUB_REF }}
