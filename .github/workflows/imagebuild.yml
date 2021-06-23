@@ -1,9 +1,6 @@
 name: Build Image
 
-on:
-  push:
-    branches:
-      - '*'
+on: ['push']
     # tags:
     #   - '*.*.*'
 
