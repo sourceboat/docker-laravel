@@ -1,8 +1,9 @@
 name: Build stable image
 
 on:
-  tags:
-    - '*.*.*'
+  push:
+    tags:
+      - '*.*.*'
 
 jobs:
   docker:
