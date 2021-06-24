@@ -41,4 +41,4 @@ jobs:
             # ghcr.io/user/app:latest
           tags: |
             ${{ github.repository }}-test:latest
-            ${{ github.repository }}-test:${{ join(github.event.push.tags, ', ') }}
+            ${{ github.repository }}-test:${{ join(github.event.push.branches.*.name, ', ') }}
