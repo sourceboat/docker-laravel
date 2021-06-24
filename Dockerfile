@@ -78,7 +78,8 @@ COPY ./etc/service/ /etc/service/
 RUN find /etc/service/ -name "run" -exec chmod -v +x {} \;
 
 # copy nginx config files
-COPY ./etc/nginx/ /etc/nginx/
+COPY ./etc/nginx/conf.d/ /etc/nginx/conf.d/
+COPY ./etc/nginx/ngsinx.conf /etc/nginx/nginx.conf
 
 # copy php config files
 COPY ./usr/local/etc/php/ /usr/local/etc/php/
