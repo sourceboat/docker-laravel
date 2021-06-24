@@ -12,6 +12,20 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          # list of Docker images to use as base name for tags
+          images: |
+            neroazure/docker-laravel
+          # generate Docker tags based on the following events/attributes
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+      -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       -
@@ -39,6 +53,4 @@ jobs:
           push: true
             # ghcr.io/user/app:1.0.0
             # ghcr.io/user/app:latest
-          tags: |
-            ${{ github.repository }}-test:latest
-            ${{ github.repository }}-test:${{ join(github.event.push.branches.*.name, ', ') }}
+          tags: ${{ steps.meta.outputs.tags }}
