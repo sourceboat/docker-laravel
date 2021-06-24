@@ -1,4 +1,4 @@
-FROM php:7.4.19-fpm-alpine
+FROM php:8.0.7-fpm-alpine
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -24,8 +24,6 @@ RUN apk info \
         nginx \
         zlib-dev \
         icu-dev \
-        imagemagick \
-        imagemagick-dev \
         libzip-dev \
         libjpeg-turbo-dev \
         libpng-dev \
@@ -36,9 +34,9 @@ RUN apk info \
         nodejs \
         npm \
         composer \
-        php7-tokenizer \
-        php7-simplexml \
-        php7-dom \
+        php8-tokenizer \
+        php8-simplexml \
+        php8-dom \
         mysql-client \
         mariadb-connector-c \
         yarn@edge \
@@ -55,11 +53,10 @@ RUN apk info \
         iconv \
     && pecl install \
         redis \
-        imagick \
     && docker-php-ext-enable \
         redis \
-        imagick \
-    && apk del .build-deps
+    && apk del .build-deps \
+    && rm -rf /tmp/* /var/cache/apk/* 
 
 # fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-305038173)
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ gnu-libiconv
