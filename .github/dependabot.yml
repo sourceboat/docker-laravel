@@ -6,6 +6,6 @@ updates:
     interval: "daily"
   reviewers:
   - krns
-  - PKuebler
+  - NeroAzure
   assignees:
-  - PKuebler
+  - NeroAzure

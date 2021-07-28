@@ -117,6 +117,7 @@ Check [releases](https://github.com/sourceboat/docker-laravel/releases) for all 
 
 - [Phil-Bastian Berndt](https://github.com/pehbehbeh)
 - [Philipp Kübler](https://github.com/PKuebler)
+- [Kevin Buchholz](https://github.com/NeroAzure)
 - [All Contributors](https://github.com/sourceboat/docker-laravel/graphs/contributors)
 
 ## License
