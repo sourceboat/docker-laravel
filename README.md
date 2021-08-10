@@ -1,20 +1,20 @@
-# docker-laravel `WIP`
+# `docker-laravel`
 
-[![Docker Build Status](https://img.shields.io/docker/cloud/build/sourceboat/docker-laravel.svg?style=flat-square)](https://hub.docker.com/r/sourceboat/docker-laravel/builds/)
 [![Release](https://img.shields.io/github/release/sourceboat/docker-laravel.svg?style=flat-square)](https://github.com/sourceboat/docker-laravel/releases)
 [![Docker Pulls](https://img.shields.io/docker/pulls/sourceboat/docker-laravel.svg?style=flat-square)](https://hub.docker.com/r/sourceboat/docker-laravel/)
 [![Image Size](https://img.shields.io/docker/image-size/sourceboat/docker-laravel?style=flat-square)](https://microbadger.com/images/sourceboat/docker-laravel)
-[![MicroBadger Layers](https://img.shields.io/microbadger/layers/sourceboat/docker-laravel.svg?style=flat-square)](https://microbadger.com/images/sourceboat/docker-laravel)
 
 A highly opinionated docker image which aims to be perfectly suited to run our Laravel applications.
 
 ## What's included?
 
-`WIP`
+This Image includes some features to ease the work with Laravel in Docker:
+- Tooling and extensions needed for Laravel applications
+- Dependency management: Composer, Npm and Yarn
+- Datastores: MariaDB, MySQL, Redis
+- [Startup commands](#startup-commands)
 
 ## Usage
-
-### Development 
 
 Create a `Dockerfile` with the following contents (and adjust version tag):
 
@@ -104,10 +104,6 @@ services:
       - "MYSQL_ROOT_PASSWORD=secret"
       - "MYSQL_DATABASE=default"
 ```
-
-### Production
-
-`WIP`
 
 ## Changelog
 
