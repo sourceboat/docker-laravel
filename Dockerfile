@@ -1,4 +1,4 @@
-FROM php:8.0.9-fpm-alpine
+FROM php:8.0-fpm-alpine
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -58,9 +58,9 @@ RUN apk info \
     && apk del .build-deps \
     && rm -rf /tmp/* /var/cache/apk/* 
 
-# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-305038173)
-RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ gnu-libiconv
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
+# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-876464325)
+RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # change default shell
 SHELL ["/bin/bash", "-c"]
