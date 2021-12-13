@@ -12,8 +12,6 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_FPM_PROCESS_IDLE_TIMEOUT="10s"
 
 RUN apk info \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
@@ -34,12 +32,14 @@ RUN apk info \
         nodejs \
         npm \
         composer \
-        php8-tokenizer \
-        php8-simplexml \
-        php8-dom \
         mysql-client \
         mariadb-connector-c \
-        yarn@edge \
+        php8-dom \
+        php8-tokenizer \
+        php8-xml \
+        php8-xmlwriter \
+        php8-fileinfo \
+        yarn \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
@@ -51,10 +51,14 @@ RUN apk info \
         opcache \
         pcntl \
         iconv \
+        xml \
+        xmlwriter \
+        dom \
+        tokenizer \
+        fileinfo \
     && pecl install \
         redis \
-    && docker-php-ext-enable \
-        redis \
+    && docker-php-ext-enable redis \
     && apk del .build-deps \
     && rm -rf /tmp/* /var/cache/apk/* 
 
