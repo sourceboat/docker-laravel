@@ -60,7 +60,7 @@ RUN apk info \
         git \
         nodejs \
         npm \
-        composer \
+        yarn \
         mysql-client \
         mariadb-connector-c \
         php8-dom \
@@ -68,7 +68,6 @@ RUN apk info \
         php8-xml \
         php8-xmlwriter \
         php8-fileinfo \
-        yarn \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
@@ -91,8 +90,7 @@ RUN apk info \
     && apk del .build-deps \
     && rm -rf /tmp/* /var/cache/apk/* 
 
-# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-876464325)
-
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
