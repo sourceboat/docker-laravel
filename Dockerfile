@@ -45,9 +45,6 @@ RUN apk info \
     && apk add --no-cache --virtual .build-deps \
         $PHPIZE_DEPS \
     && apk add --no-cache \
-        sudo \
-        runit \
-        nginx \
         zlib-dev \
         icu-dev \
         libzip-dev \
@@ -56,7 +53,10 @@ RUN apk info \
         libxml2-dev \
         freetype-dev \
         gnu-libiconv@iconv-fix=1.15-r3 \
+        sudo \
         bash \
+        runit \
+        nginx \
         git \
         nodejs \
         npm \
