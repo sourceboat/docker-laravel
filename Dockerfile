@@ -63,11 +63,6 @@ RUN apk info \
         yarn \
         mysql-client \
         mariadb-connector-c \
-        php8-dom \
-        php8-tokenizer \
-        php8-xml \
-        php8-xmlwriter \
-        php8-fileinfo \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         gd \
@@ -78,12 +73,6 @@ RUN apk info \
         intl \
         opcache \
         pcntl \
-        iconv \
-        xml \
-        xmlwriter \
-        dom \
-        tokenizer \
-        fileinfo \
     && pecl install \
         redis \
     && docker-php-ext-enable redis \
