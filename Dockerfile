@@ -39,6 +39,7 @@ COPY ./root/ /root/
 RUN find /root -name "*.sh" -exec chmod -v +x {} \;
 
 RUN apk info \
+    && echo @iconv-fix http://dl-cdn.alpinelinux.org/alpine/v3.13/community >> /etc/apk/repositories \
     && apk update \
     && apk upgrade \
     && apk add --no-cache --virtual .build-deps \
@@ -54,6 +55,7 @@ RUN apk info \
         libpng-dev \
         libxml2-dev \
         freetype-dev \
+        gnu-libiconv@iconv-fix=1.15-r3 \
         bash \
         git \
         nodejs \
@@ -90,14 +92,15 @@ RUN apk info \
     && rm -rf /tmp/* /var/cache/apk/* 
 
 # fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-876464325)
-RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1 \
     PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
+
+# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-876464325)
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
 # configure yarn
 RUN yarn config set strict-ssl false && \
