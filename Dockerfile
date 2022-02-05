@@ -11,6 +11,33 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_FPM_PM="ondemand" \
     PHP_FPM_PROCESS_IDLE_TIMEOUT="10s"
 
+# create working dir
+RUN mkdir /opt/app
+WORKDIR /opt/app
+
+# install wait-for-it
+ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wait-for-it.sh
+
+# copy runit services
+COPY ./etc/service/ /etc/service/
+RUN find /etc/service/ -name "run" -exec chmod -v +x {} \;
+
+# copy nginx config files
+COPY ./etc/nginx/conf.d/ /etc/nginx/conf.d/
+COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
+
+# copy php config files
+COPY ./usr/local/etc/php/ /usr/local/etc/php/
+COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
+
+# copy bin files
+COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
+
+# copy root folder and make run scripts executable
+COPY ./root/ /root/
+RUN find /root -name "*.sh" -exec chmod -v +x {} \;
+
 RUN apk info \
     && apk update \
     && apk upgrade \
@@ -66,31 +93,6 @@ RUN apk info \
 RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 
-# change default shell
-SHELL ["/bin/bash", "-c"]
-
-# create working dir
-RUN mkdir /opt/app
-WORKDIR /opt/app
-
-# install wait-for-it
-ADD https://github.com/vishnubob/wait-for-it/raw/master/wait-for-it.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/wait-for-it.sh
-
-# copy runit services
-COPY ./etc/service/ /etc/service/
-RUN find /etc/service/ -name "run" -exec chmod -v +x {} \;
-
-# copy nginx config files
-COPY ./etc/nginx/conf.d/ /etc/nginx/conf.d/
-COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
-
-# copy php config files
-COPY ./usr/local/etc/php/ /usr/local/etc/php/
-COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
-
-# copy bin files
-COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
 
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
@@ -101,9 +103,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1 \
 RUN yarn config set strict-ssl false && \
     yarn global add cross-env
 
-# copy root folder and make run scripts executable
-COPY ./root/ /root/
-RUN find /root -name "*.sh" -exec chmod -v +x {} \;
+# change default shell
+SHELL ["/bin/bash", "-c"]
 
 # run the application
 ENTRYPOINT ["/root/entrypoint.sh"]
