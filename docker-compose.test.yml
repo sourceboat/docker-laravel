@@ -6,6 +6,7 @@ services:
     environment: 
       - STARTUP_COMMAND1=php --version
       - STARTUP_COMMAND2=composer --version
-      - STARTUP_COMMAND3=chmod +x /root/test/test-command.sh
+      - STARTUP_COMMAND3=yarn -v
+      - STARTUP_COMMAND4=chmod +x /root/test/test-command.sh
     volumes: 
       - ./test:/root/test

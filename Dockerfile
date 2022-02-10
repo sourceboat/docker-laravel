@@ -1,4 +1,4 @@
-FROM php:8.0-fpm-alpine
+FROM php:8.1-fpm-alpine
 
 ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
@@ -10,60 +10,6 @@ ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
     PHP_FPM_MAX_REQUESTS="1000" \
     PHP_FPM_PM="ondemand" \
     PHP_FPM_PROCESS_IDLE_TIMEOUT="10s"
-
-RUN apk info \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories \
-    && echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories \
-    && apk update \
-    && apk upgrade \
-    && apk add --no-cache --virtual .build-deps \
-        $PHPIZE_DEPS \
-    && apk add --no-cache \
-        sudo \
-        runit \
-        nginx \
-        zlib-dev \
-        icu-dev \
-        libzip-dev \
-        libjpeg-turbo-dev \
-        libpng-dev \
-        libxml2-dev \
-        freetype-dev \
-        bash \
-        git \
-        nodejs \
-        npm \
-        composer \
-        php8-tokenizer \
-        php8-simplexml \
-        php8-dom \
-        mysql-client \
-        mariadb-connector-c \
-        yarn@edge \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-        gd \
-        pdo_mysql \
-        zip \
-        bcmath \
-        exif \
-        intl \
-        opcache \
-        pcntl \
-        iconv \
-    && pecl install \
-        redis \
-    && docker-php-ext-enable \
-        redis \
-    && apk del .build-deps \
-    && rm -rf /tmp/* /var/cache/apk/* 
-
-# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-876464325)
-RUN apk add gnu-libiconv=1.15-r3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/v3.13/community/ --allow-untrusted
-ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
-
-# change default shell
-SHELL ["/bin/bash", "-c"]
 
 # create working dir
 RUN mkdir /opt/app
@@ -88,18 +34,67 @@ COPY ./usr/local/etc/php-fpm.d/ /usr/local/etc/php-fpm.d/
 # copy bin files
 COPY ./usr/local/bin/startup-commands.php /usr/local/bin/
 
+# copy root folder and make run scripts executable
+COPY ./root/ /root/
+RUN find /root -name "*.sh" -exec chmod -v +x {} \;
+
+RUN apk info \
+    && echo @iconv-fix http://dl-cdn.alpinelinux.org/alpine/v3.13/community >> /etc/apk/repositories \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
+    && apk add --no-cache \
+        zlib-dev \
+        icu-dev \
+        libzip-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libxml2-dev \
+        freetype-dev \
+        gnu-libiconv@iconv-fix=1.15-r3 \
+        sudo \
+        bash \
+        runit \
+        nginx \
+        git \
+        nodejs \
+        npm \
+        yarn \
+        mysql-client \
+        mariadb-connector-c \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        pdo_mysql \
+        zip \
+        bcmath \
+        exif \
+        intl \
+        opcache \
+        pcntl \
+    && pecl install \
+        redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps \
+    && rm -rf /tmp/* /var/cache/apk/* 
+
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
 # configure composer
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1 \
     PATH="$PATH:/opt/app/vendor/bin:~/.composer/vendor/bin"
 
+# fix iconv (see https://github.com/docker-library/php/issues/240#issuecomment-876464325)
+ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+
 # configure yarn
 RUN yarn config set strict-ssl false && \
     yarn global add cross-env
 
-# copy root folder and make run scripts executable
-COPY ./root/ /root/
-RUN find /root -name "*.sh" -exec chmod -v +x {} \;
+# change default shell
+SHELL ["/bin/bash", "-c"]
 
 # run the application
 ENTRYPOINT ["/root/entrypoint.sh"]
